@@ -26,7 +26,7 @@ tokio = { version = "1.33.0", features = ["full"] }
 tower = { version = "0.4.13", features = ["full"] }
 tower-http = { version = "0.5", features = ["full"] }
 wasm-bindgen = "=0.2.93"
-sea-orm = { version = "1.0.1", features = ["runtime-tokio-rustls   ", "sqlx-postgres", "macros", "with-time", "with-json"]}
+sea-orm = { version = "1.0.1", features = ["runtime-tokio-rustls   ", "sqlx-postgres", "macros", "with-time", "with-json", "with-chrono"] }
 
 # See https://github.com/akesson/cargo-leptos for documentation of all the parameters.
 

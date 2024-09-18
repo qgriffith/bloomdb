@@ -1,3 +1,4 @@
+use chrono::Utc;
 use sea_orm_migration::{prelude::*, schema::*};
 
 #[derive(DeriveMigrationName)]
@@ -6,7 +7,6 @@ pub struct Migration;
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-
         manager
             .create_table(
                 Table::create()
@@ -18,7 +18,15 @@ impl MigrationTrait for Migration {
                     .col(date_time(User::CreatedAt))
                     .to_owned(),
             )
-            .await
+            .await?;
+        let dt = Utc::now();
+        let insert = Query::insert()
+            .into_table(User::Table)
+            .columns([User::Email, User::Username, User::CreatedAt])
+            .values_panic(["admin@localhost.com".into(), "admin".into(), dt.into()])
+            .to_owned();
+        manager.exec_stmt(insert).await?;
+        Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {

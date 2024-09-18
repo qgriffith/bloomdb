@@ -10,10 +10,12 @@ path = "src/lib.rs"
 
 [dependencies]
 async-std = { version = "1", features = ["attributes", "tokio1"] }
+chrono = "0.4.38"
 
 [dependencies.sea-orm-migration]
 version = "1.0.1"
 features = [
    "runtime-tokio-rustls",  # `ASYNC_RUNTIME` feature
    "sqlx-postgres",         # `DATABASE_DRIVER` feature
+   "with-chrono"
 ]
