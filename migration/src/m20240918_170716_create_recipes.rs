@@ -1,3 +1,4 @@
+use chrono::Utc;
 use sea_orm_migration::{prelude::*, schema::*};
 
 #[derive(DeriveMigrationName)]
@@ -46,7 +47,39 @@ impl MigrationTrait for Migration {
                     )
                     .to_owned(),
             )
-            .await
+            .await?;
+        let dt = Utc::now();
+        let insert = Query::insert()
+            .into_table(Recipe::Table)
+            .columns([
+                Recipe::Title,
+                Recipe::Slug,
+                Recipe::Temp,
+                Recipe::Link,
+                Recipe::ShopLink,
+                Recipe::RoastId,
+                Recipe::Machine,
+                Recipe::BrewerId,
+                Recipe::Type,
+                Recipe::UserId,
+                Recipe::CreatedAt,
+            ])
+            .values_panic([
+                "Black And White- The Future".into(),
+                "black-white-future".into(),
+                "hot".into(),
+                "https://share-h5.xbloom.com/?id=8yAUAWJktyHNIpo3vjZ6pA==".into(),
+                "https://xbloom.com/products/the-future-xbloom-exclusive".into(),
+                2.into(),
+                "Studio".into(),
+                1.into(),
+                "xbloom".into(),
+                1.into(),
+                dt.into(),
+            ])
+            .to_owned();
+        manager.exec_stmt(insert).await?;
+        Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
