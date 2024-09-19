@@ -22,13 +22,14 @@ async fn start() -> anyhow::Result<()> {
 
     let app = Router::new()
         .route("/", get(handler))
-        .route("/roast/", get(roasts::get_roasts))
+        .route("/api/roast", get(roasts::get_roasts))
         .layer(CookieManagerLayer::new())
         .with_state(conn);
 
     let app = app.fallback(handler_404);
 
     let listener = tokio::net::TcpListener::bind(&server_url).await?;
+    tracing::debug!("listening on {}", listener.local_addr().unwrap());;
     axum::serve(listener, app).await?;
 
     Ok(())
