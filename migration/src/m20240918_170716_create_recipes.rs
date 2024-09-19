@@ -16,6 +16,7 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(pk_auto(Recipe::Id))
                     .col(string(Recipe::Title))
+                    .col(string(Recipe::Temp))
                     .col(string(Recipe::Slug))
                     .col(string(Recipe::Link))
                     .col(string(Recipe::ShopLink))
@@ -29,19 +30,19 @@ impl MigrationTrait for Migration {
                         ForeignKey::create()
                             .name("FK_recipe_user_id")
                             .from(Recipe::Table, Recipe::UserId)
-                            .to(User::Table, User::Id)
+                            .to(User::Table, User::Id),
                     )
                     .foreign_key(
                         ForeignKey::create()
                             .name("FK_recipe_roast_id")
                             .from(Recipe::Table, Recipe::RoastId)
-                            .to(Roast::Table, Roast::Id)
+                            .to(Roast::Table, Roast::Id),
                     )
                     .foreign_key(
                         ForeignKey::create()
                             .name("FK_recipe_brewer_id")
                             .from(Recipe::Table, Recipe::BrewerId)
-                            .to(Brewer::Table, Brewer::Id)
+                            .to(Brewer::Table, Brewer::Id),
                     )
                     .to_owned(),
             )
@@ -49,7 +50,6 @@ impl MigrationTrait for Migration {
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-
         manager
             .drop_table(Table::drop().table(Recipe::Table).to_owned())
             .await
@@ -61,6 +61,7 @@ pub enum Recipe {
     Table,
     Id,
     Title,
+    Temp,
     Slug,
     Link,
     ShopLink,
@@ -69,5 +70,5 @@ pub enum Recipe {
     UserId,
     BrewerId,
     RoastId,
-    CreatedAt
+    CreatedAt,
 }
