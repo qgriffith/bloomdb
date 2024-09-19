@@ -1,3 +1,3 @@
 fn main() {
-    bloom_api::main();
+    bloom_api::server::main();
 }
