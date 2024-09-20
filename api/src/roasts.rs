@@ -5,8 +5,8 @@ use axum::{
 };
 use entity::roast as Roast;
 
-use sea_orm::DatabaseConnection;
-use sea_orm::{entity::*, error::*, query::*, DbConn, FromQueryResult};
+use super::internal_error;
+use sea_orm::{entity::*, DatabaseConnection};
 
 /// Retrieves a list of roasts from the database.
 ///
@@ -32,7 +32,7 @@ use sea_orm::{entity::*, error::*, query::*, DbConn, FromQueryResult};
 pub async fn get_roasts(
     State(conn): State<DatabaseConnection>,
 ) -> Result<Json<Vec<Roast::Model>>, (StatusCode, String)> {
-    let roasts: Vec<Roast::Model> = Roast::Entity::find()
+    let roasts = Roast::Entity::find()
         .all(&conn)
         .await
         .map_err(internal_error)?;
@@ -68,22 +68,4 @@ pub async fn get_roast_id(
         .await
         .map_err(internal_error)?;
     Ok(Json(roast))
-}
-
-/// Converts an internal error into a tuple containing an HTTP status code and an error message.
-///
-/// # Arguments
-///
-/// * `err` - The error that occurred. It must implement the `std::error::Error` trait.
-///
-/// # Returns
-///
-/// A tuple containing:
-/// * `StatusCode::INTERNAL_SERVER_ERROR` - Represents the 500 Internal Server Error HTTP status code.
-/// * `String` - The string representation of the error.
-fn internal_error<E>(err: E) -> (StatusCode, String)
-where
-    E: std::error::Error,
-{
-    (StatusCode::INTERNAL_SERVER_ERROR, err.to_string())
 }

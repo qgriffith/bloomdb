@@ -5,6 +5,7 @@ use axum::{
     Router,
 };
 
+use crate::brewers;
 use crate::roasts;
 use axum::error_handling::HandleErrorLayer;
 use sea_orm::Database;
@@ -12,7 +13,6 @@ use std::env;
 use std::time::Duration;
 use tower::{BoxError, ServiceBuilder};
 use tower_http::trace::TraceLayer;
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
 async fn start() -> anyhow::Result<()> {
@@ -31,8 +31,10 @@ async fn start() -> anyhow::Result<()> {
 
     let app = Router::new()
         .route("/", get(handler))
-        .route("/api/roast", get(roasts::get_roasts))
+        .route("/api/roasts", get(roasts::get_roasts))
         .route("/api/roast/:id", get(roasts::get_roast_id))
+        .route("/api/brewers", get(brewers::get_brewers))
+        .route("/api/brewer/:id", get(brewers::get_brewer_id))
         // Add middleware to all routes
         .layer(
             ServiceBuilder::new()
