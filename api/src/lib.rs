@@ -3,6 +3,7 @@ use axum::http::StatusCode;
 mod brewers;
 mod roasts;
 pub mod server;
+mod users;
 
 /// Converts an internal error into a tuple containing an HTTP status code and an error message.
 ///

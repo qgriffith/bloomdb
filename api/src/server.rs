@@ -7,6 +7,8 @@ use axum::{
 
 use crate::brewers;
 use crate::roasts;
+use crate::users;
+use crate::users::{get_user_id, get_users};
 use axum::error_handling::HandleErrorLayer;
 use sea_orm::Database;
 use std::env;
@@ -35,6 +37,8 @@ async fn start() -> anyhow::Result<()> {
         .route("/api/roast/:id", get(roasts::get_roast_id))
         .route("/api/brewers", get(brewers::get_brewers))
         .route("/api/brewer/:id", get(brewers::get_brewer_id))
+        .route("/api/users", get(get_users))
+        .route("/api/user/:id", get(get_user_id))
         // Add middleware to all routes
         .layer(
             ServiceBuilder::new()
