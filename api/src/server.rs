@@ -32,6 +32,7 @@ async fn start() -> anyhow::Result<()> {
     let app = Router::new()
         .route("/", get(handler))
         .route("/api/roast", get(roasts::get_roasts))
+        .route("/api/roast/:id", get(roasts::get_roast_id))
         // Add middleware to all routes
         .layer(
             ServiceBuilder::new()
