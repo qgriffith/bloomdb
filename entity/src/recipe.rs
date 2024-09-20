@@ -9,8 +9,9 @@ pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
     pub title: String,
-    pub temp: String,
     pub slug: String,
+    pub roaster: String,
+    pub temp: String,
     pub link: String,
     pub shop_link: String,
     pub machine: String,

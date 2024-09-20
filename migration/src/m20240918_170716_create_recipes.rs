@@ -17,8 +17,9 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(pk_auto(Recipe::Id))
                     .col(string(Recipe::Title))
-                    .col(string(Recipe::Temp))
                     .col(string(Recipe::Slug))
+                    .col(string(Recipe::Roaster))
+                    .col(string(Recipe::Temp))
                     .col(string(Recipe::Link))
                     .col(string(Recipe::ShopLink))
                     .col(string(Recipe::Machine))
@@ -54,6 +55,7 @@ impl MigrationTrait for Migration {
             .columns([
                 Recipe::Title,
                 Recipe::Slug,
+                Recipe::Roaster,
                 Recipe::Temp,
                 Recipe::Link,
                 Recipe::ShopLink,
@@ -65,12 +67,13 @@ impl MigrationTrait for Migration {
                 Recipe::CreatedAt,
             ])
             .values_panic([
-                "Black And White- The Future".into(),
-                "black-white-future".into(),
+                "The Future".into(),
+                "the-future".into(),
+                "Black and White".into(),
                 "hot".into(),
                 "https://share-h5.xbloom.com/?id=8yAUAWJktyHNIpo3vjZ6pA==".into(),
                 "https://xbloom.com/products/the-future-xbloom-exclusive".into(),
-                2.into(),
+                1.into(),
                 "Studio".into(),
                 1.into(),
                 "xbloom".into(),
@@ -94,8 +97,9 @@ pub enum Recipe {
     Table,
     Id,
     Title,
-    Temp,
     Slug,
+    Roaster,
+    Temp,
     Link,
     ShopLink,
     Machine,
