@@ -1,6 +1,7 @@
 use axum::http::StatusCode;
 
 mod brewers;
+mod recipes;
 mod roasts;
 pub mod server;
 mod users;
