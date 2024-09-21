@@ -1,7 +1,9 @@
+use axum::response::IntoResponse;
 use axum::{
     extract::{Path, State},
     http::StatusCode,
     response::Json,
+    Form,
 };
 use entity::recipe as Recipe;
 
@@ -71,4 +73,28 @@ pub async fn get_recipe_id(
         .await
         .map_err(internal_error)?;
     Ok(Json(recipe))
+}
+pub async fn create_recipe(
+    State(conn): State<DatabaseConnection>,
+    form: Form<Recipe::Model>,
+) -> Result<Json<Option<Recipe::Model>>, (StatusCode, String)> {
+    let form = form.0;
+    let recipe = Recipe::ActiveModel {
+        id: Default::default(),
+        title: ActiveValue::set(form.title),
+        slug: ActiveValue::set(form.slug),
+        roaster: ActiveValue::set(form.roaster),
+        temp: ActiveValue::set(form.temp),
+        link: ActiveValue::set(form.link),
+        shop_link: ActiveValue::set(form.shop_link),
+        machine: ActiveValue::set(form.machine),
+        r#type: ActiveValue::set(form.r#type),
+        user_id: ActiveValue::set(form.user_id),
+        brewer_id: ActiveValue::set(form.brewer_id),
+        roast_id: ActiveValue::set(form.roast_id),
+        created_at: ActiveValue::set(form.created_at),
+    };
+
+    let result = recipe.insert(&conn).await.map_err(internal_error)?;
+    Ok(Json(Some(result)))
 }

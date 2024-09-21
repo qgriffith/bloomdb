@@ -1,7 +1,7 @@
 use axum::{
     http::StatusCode,
     response::{Html, IntoResponse},
-    routing::get,
+    routing::{get, post},
     Router,
 };
 
@@ -41,6 +41,7 @@ async fn start() -> anyhow::Result<()> {
         .route("/api/user/:id", get(users::get_user_id))
         .route("/api/recipes", get(recipes::get_recipes))
         .route("/api/recipe/:id", get(recipes::get_recipe_id))
+        .route("/api/recipe/create", post(recipes::create_recipe))
         // Add middleware to all routes
         .layer(
             ServiceBuilder::new()

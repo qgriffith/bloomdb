@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 #[sea_orm(table_name = "recipe")]
 pub struct Model {
     #[sea_orm(primary_key)]
+    #[serde(skip_deserializing)] // Skip deserializing
     pub id: i32,
     pub title: String,
     pub slug: String,
@@ -19,6 +20,7 @@ pub struct Model {
     pub user_id: i32,
     pub brewer_id: i32,
     pub roast_id: i32,
+    #[sea_orm(default_expr = "Expr::current_timestamp()")]
     pub created_at: DateTime,
 }
 
