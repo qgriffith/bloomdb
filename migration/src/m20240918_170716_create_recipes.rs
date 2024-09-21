@@ -23,7 +23,7 @@ impl MigrationTrait for Migration {
                     .col(string(Recipe::Link))
                     .col(string(Recipe::ShopLink))
                     .col(string(Recipe::Machine))
-                    .col(string(Recipe::Type))
+                    .col(string(Recipe::Creator))
                     .col(integer(Recipe::UserId))
                     .col(integer(Recipe::BrewerId))
                     .col(integer(Recipe::RoastId))
@@ -62,7 +62,7 @@ impl MigrationTrait for Migration {
                 Recipe::RoastId,
                 Recipe::Machine,
                 Recipe::BrewerId,
-                Recipe::Type,
+                Recipe::Creator,
                 Recipe::UserId,
                 Recipe::CreatedAt,
             ])
@@ -76,7 +76,7 @@ impl MigrationTrait for Migration {
                 1.into(),
                 "Studio".into(),
                 1.into(),
-                "xbloom".into(),
+                "roaster".into(),
                 1.into(),
                 dt.into(),
             ])
@@ -103,7 +103,7 @@ pub enum Recipe {
     Link,
     ShopLink,
     Machine,
-    Type,
+    Creator,
     UserId,
     BrewerId,
     RoastId,

@@ -16,11 +16,10 @@ pub struct Model {
     pub link: String,
     pub shop_link: String,
     pub machine: String,
-    pub r#type: String,
+    pub creator: String,
     pub user_id: i32,
     pub brewer_id: i32,
     pub roast_id: i32,
-    #[sea_orm(default_expr = "Expr::current_timestamp()")]
     pub created_at: DateTime,
 }
 
