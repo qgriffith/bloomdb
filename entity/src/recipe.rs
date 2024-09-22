@@ -9,8 +9,10 @@ pub struct Model {
     #[sea_orm(primary_key)]
     #[serde(skip_deserializing)] // Skip deserializing
     pub id: i32,
+    #[sea_orm(unique)]
     pub title: String,
     #[serde(skip_deserializing)] // Skip deserializing
+    #[sea_orm(unique)]
     pub slug: String,
     pub roaster: String,
     pub temp: String,
