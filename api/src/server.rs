@@ -10,6 +10,7 @@ use crate::recipes;
 use crate::roasts;
 use crate::users;
 use axum::error_handling::HandleErrorLayer;
+use migration::{Migrator, MigratorTrait};
 use sea_orm::Database;
 use std::env;
 use std::time::Duration;
@@ -29,6 +30,9 @@ async fn start() -> anyhow::Result<()> {
     let conn = Database::connect(db_url)
         .await
         .expect("Database connection failed");
+
+    /// Run DB migrations
+    Migrator::up(&conn, None).await?;
 
     let app = Router::new()
         .route("/", get(handler))
