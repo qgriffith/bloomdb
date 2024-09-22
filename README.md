@@ -9,3 +9,9 @@ for the ORM layer.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Disclaimer
+
+This library is not affiliated with Xbloom.
+Use at your own risk.
+This is very much a work in progress.
