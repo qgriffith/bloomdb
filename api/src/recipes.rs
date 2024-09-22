@@ -9,6 +9,7 @@ use entity::recipe as Recipe;
 
 use super::internal_error;
 use sea_orm::{entity::*, DatabaseConnection};
+use slug::slugify;
 
 /// Asynchronously retrieves a list of recipes from the database.
 ///
@@ -79,10 +80,11 @@ pub async fn create_recipe(
     form: Form<Recipe::Model>,
 ) -> Result<Json<Option<Recipe::Model>>, (StatusCode, String)> {
     let form = form.0;
+    let slug = slugify(&form.title);
     let recipe = Recipe::ActiveModel {
         id: Default::default(),
         title: ActiveValue::set(form.title),
-        slug: ActiveValue::set(form.slug),
+        slug: ActiveValue::set(slug),
         roaster: ActiveValue::set(form.roaster),
         temp: ActiveValue::set(form.temp),
         link: ActiveValue::set(form.link),

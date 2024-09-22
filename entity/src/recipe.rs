@@ -10,6 +10,7 @@ pub struct Model {
     #[serde(skip_deserializing)] // Skip deserializing
     pub id: i32,
     pub title: String,
+    #[serde(skip_deserializing)] // Skip deserializing
     pub slug: String,
     pub roaster: String,
     pub temp: String,
