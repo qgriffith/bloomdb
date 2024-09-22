@@ -75,6 +75,28 @@ pub async fn get_recipe_id(
         .map_err(internal_error)?;
     Ok(Json(recipe))
 }
+
+/// Asynchronously creates a new recipe in the database.
+///
+/// # Arguments
+///
+/// * `State(conn): State<DatabaseConnection>`
+///   - A managed state holding a [`DatabaseConnection`] used to perform database operations.
+///
+/// * `form: Form<Recipe::Model>`
+///   - A form containing data for the recipe to be created.
+///
+/// # Returns
+///
+/// * `Result<Json<Option<Recipe::Model>>, (StatusCode, String)>`
+///   - On success, it returns a JSON response with the created recipe model.
+///   - On failure, it returns a tuple of `StatusCode` and an error message.
+///
+/// # Errors
+///
+/// This function can return an error if the insertion into the database fails.
+/// The error will be encapsulated in a tuple containing the HTTP status code and an error message string.
+
 pub async fn create_recipe(
     State(conn): State<DatabaseConnection>,
     form: Form<Recipe::Model>,
