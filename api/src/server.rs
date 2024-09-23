@@ -15,6 +15,7 @@ use sea_orm::Database;
 use std::env;
 use std::time::Duration;
 use tower::{BoxError, ServiceBuilder};
+use tower_http::cors::{Any, CorsLayer};
 use tower_http::trace::TraceLayer;
 
 #[tokio::main]
@@ -62,6 +63,7 @@ async fn start() -> anyhow::Result<()> {
                 .layer(TraceLayer::new_for_http())
                 .into_inner(),
         )
+        .layer(CorsLayer::permissive())
         .with_state(conn);
 
     let app = app.fallback(handler_404);
