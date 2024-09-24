@@ -4,7 +4,9 @@
 - [ ] Add auth for at least the create recipe
 - [ ] Create admin level apis to add/delete/modify the supporting tables like equipment/brewers etc
 - [ ] Create API docs
-- [ ] Add endpoint to look up recipes by name
+- [ ] Add Pagination
+- [ ] Add endpoint to return recipes by slug
+- [ ] Add endpoint to return up recipes by name
 - [ ] Add endpoint to return recipes by brewer type
 - [ ] Add endpoint to return recipes by roast level
 - [ ] Add endpoint to return recipes by user
