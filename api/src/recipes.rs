@@ -1,4 +1,3 @@
-use axum::response::IntoResponse;
 use axum::{
     extract::{Path, State},
     http::StatusCode,
@@ -8,7 +7,7 @@ use axum::{
 use entity::recipe as Recipe;
 
 use super::internal_error;
-use sea_orm::{entity::*, DatabaseConnection};
+use sea_orm::{entity::*, DatabaseConnection, QueryFilter};
 use slug::slugify;
 
 /// Asynchronously retrieves a list of recipes from the database.
@@ -70,6 +69,18 @@ pub async fn get_recipe_id(
     Path(id): Path<i32>,
 ) -> Result<Json<Option<Recipe::Model>>, (StatusCode, String)> {
     let recipe = Recipe::Entity::find_by_id(id)
+        .one(&conn)
+        .await
+        .map_err(internal_error)?;
+    Ok(Json(recipe))
+}
+
+pub async fn get_recipe_slug(
+    State(conn): State<DatabaseConnection>,
+    Path(slug): Path<String>,
+) -> Result<Json<Option<Recipe::Model>>, (StatusCode, String)> {
+    let recipe = Recipe::Entity::find()
+        .filter(Recipe::Column::Slug.eq(slug))
         .one(&conn)
         .await
         .map_err(internal_error)?;

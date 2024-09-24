@@ -32,7 +32,7 @@ async fn start() -> anyhow::Result<()> {
         .await
         .expect("Database connection failed");
 
-    /// Run DB migrations
+    // Run DB migrations
     Migrator::up(&conn, None).await?;
 
     let app = Router::new()
@@ -44,7 +44,7 @@ async fn start() -> anyhow::Result<()> {
         .route("/api/users", get(users::get_users))
         .route("/api/user/:id", get(users::get_user_id))
         .route("/api/recipes", get(recipes::get_recipes))
-        .route("/api/recipe/:id", get(recipes::get_recipe_id))
+        .route("/api/recipe/:slug", get(recipes::get_recipe_slug))
         .route("/api/recipe/create", post(recipes::create_recipe))
         // Add middleware to all routes
         .layer(
