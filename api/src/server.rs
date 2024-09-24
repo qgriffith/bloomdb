@@ -7,6 +7,7 @@ use axum::{
 
 use crate::brewers;
 use crate::recipes;
+use crate::recipes::get_recipe_id;
 use crate::roasts;
 use crate::users;
 use axum::error_handling::HandleErrorLayer;
@@ -44,6 +45,7 @@ async fn start() -> anyhow::Result<()> {
         .route("/api/users", get(users::get_users))
         .route("/api/user/:id", get(users::get_user_id))
         .route("/api/recipes", get(recipes::get_recipes))
+        .route("/api/recipe/id/:id", get(get_recipe_id))
         .route("/api/recipe/:slug", get(recipes::get_recipe_slug))
         .route("/api/recipe/create", post(recipes::create_recipe))
         // Add middleware to all routes
