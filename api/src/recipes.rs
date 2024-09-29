@@ -124,6 +124,7 @@ pub async fn create_recipe(
         shop_link: ActiveValue::set(form.shop_link),
         machine: ActiveValue::set(form.machine),
         creator: ActiveValue::set(form.creator),
+        oauth_user: ActiveValue::set(form.oauth_user),
         user_id: ActiveValue::set(form.user_id),
         brewer_id: ActiveValue::set(form.brewer_id),
         roast_id: ActiveValue::set(form.roast_id),
