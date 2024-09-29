@@ -6,6 +6,7 @@ mod m20240918_164352_create_brewers;
 mod m20240918_170443_create_tags;
 mod m20240918_170716_create_recipes;
 mod m20240918_182205_create_tags_recipes;
+mod m20240929_184147_alter_recipe_user;
 
 pub struct Migrator;
 
@@ -19,6 +20,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20240918_170443_create_tags::Migration),
             Box::new(m20240918_170716_create_recipes::Migration),
             Box::new(m20240918_182205_create_tags_recipes::Migration),
+            Box::new(m20240929_184147_alter_recipe_user::Migration),
         ]
     }
 }
