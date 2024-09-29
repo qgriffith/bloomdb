@@ -20,6 +20,7 @@ pub struct Model {
     pub shop_link: String,
     pub machine: String,
     pub creator: String,
+    pub oauth_user: String,
     pub user_id: i32,
     pub brewer_id: i32,
     pub roast_id: i32,
