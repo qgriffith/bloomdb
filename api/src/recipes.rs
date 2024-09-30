@@ -75,6 +75,26 @@ pub async fn get_recipe_id(
     Ok(Json(recipe))
 }
 
+/// Asynchronously fetches a recipe based on a provided slug.
+///
+/// # Arguments
+///
+/// * `State(conn)` - An instance of `State` holding a `DatabaseConnection`.
+///   It is used to query the database for the recipe.
+/// * `Path(slug)` - A `Path` containing the slug of the recipe to retrieve.
+///
+/// # Returns
+///
+/// * `Ok(Json(Some(recipe)))` - If a recipe matching the slug exists.
+/// * `Ok(Json(None))` - If no recipe matches the provided slug.
+/// * `Err((StatusCode, String))` - If there is an error fetching the recipe.
+///
+/// # Errors
+///
+/// Returns a tuple `(StatusCode, String)` wrapped in an `Err` variant if:
+///
+/// * There is an internal error when querying the database.
+///
 pub async fn get_recipe_slug(
     State(conn): State<DatabaseConnection>,
     Path(slug): Path<String>,
@@ -85,6 +105,37 @@ pub async fn get_recipe_slug(
         .await
         .map_err(internal_error)?;
     Ok(Json(recipe))
+}
+
+/// Fetches recipes with a specific title from the database.
+///
+/// This asynchronous function retrieves all recipes that match the given title
+/// from the connected database and returns them as JSON.
+///
+/// # Parameters
+///
+/// - `State(conn)`: A `State` wrapper around the `DatabaseConnection` required to access the database.
+/// - `Path(title)`: A `Path` wrapper containing the title of the recipes to search for.
+///
+/// # Returns
+///
+/// - `Ok(Json<Vec<Recipe::Model>>)` on success, containing a JSON array of recipe models.
+/// - `Err((StatusCode, String))` on failure, containing an HTTP status code and an error message.
+///
+/// # Errors
+///
+/// Returns an internal server error if the database query fails for any reason.
+///
+pub async fn get_recipe_title(
+    State(conn): State<DatabaseConnection>,
+    Path(title): Path<String>,
+) -> Result<Json<Vec<Recipe::Model>>, (StatusCode, String)> {
+    let recipes = Recipe::Entity::find()
+        .filter(Recipe::Column::Title.eq(title))
+        .all(&conn)
+        .await
+        .map_err(internal_error)?;
+    Ok(Json(recipes))
 }
 
 /// Asynchronously creates a new recipe in the database.

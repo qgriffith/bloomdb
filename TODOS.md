@@ -1,12 +1,12 @@
 # Future Features and Fixes
 
 - [ ] Fix / route to return a json payload instead of *Hello World*
-- [ ] Add auth for at least the create recipe
+- [X] Add auth for at least the create recipe
 - [ ] Create admin level apis to add/delete/modify the supporting tables like equipment/brewers etc
 - [ ] Create API docs
 - [ ] Add Pagination
 - [x] Add endpoint to return recipes by slug
-- [ ] Add endpoint to return up recipes by name
+- [X] Add endpoint to return up recipes by name
 - [ ] Add endpoint to return recipes by brewer type
 - [ ] Add endpoint to return recipes by roast level
 - [ ] Add endpoint to return recipes by user

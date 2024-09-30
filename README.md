@@ -2,9 +2,11 @@
 
 ### **Unofficial**  Community recipe sharing for [xblooom](https://xbloom.com/)
 
-This is the backend API and DB code for [xbloomdb](https://xlboomdb.dev). It is built on
+This is the backend API and DB code for [bloomdb](https://bloomdb.dev). It is built on
 [axum](https://github.com/tokio-rs/axum) for the API and uses [sea-orm](https://www.sea-ql.org/SeaORM/)
 for the ORM layer.
+
+The front-end code is at the github project [bloomdb-frontend](https://github.com/qgriffith/bloomdb-frontend)
 
 ## License
 
