@@ -138,6 +138,38 @@ pub async fn get_recipe_title(
     Ok(Json(recipes))
 }
 
+/// Asynchronous function to retrieve recipes for a specific roaster from the database.
+///
+/// # Parameters
+///
+/// - `State(conn)`: Represents the database connection state.
+/// - `Path(roaster)`: The path parameter representing the roaster's name.
+///
+/// # Returns
+///
+/// - `Result<Json<Vec<Recipe::Model>>, (StatusCode, String)>`: The function returns a `Result` containing either:
+///   - A JSON array of `Recipe::Model` on success.
+///   - A tuple `(StatusCode, String)` on failure.
+///
+/// # Detailed Description
+///
+/// This function retrieves all recipes associated with a specific roaster from the database.
+/// It filters the `Recipe` entities based on the `roaster` name provided in the path parameter.
+/// The results are returned as a JSON array of `Recipe::Model`. If an error occurs during the database query,
+/// it maps the error to an internal server error and returns it.
+///
+pub async fn get_recipe_roaster(
+    State(conn): State<DatabaseConnection>,
+    Path(roaster): Path<String>,
+) -> Result<Json<Vec<Recipe::Model>>, (StatusCode, String)> {
+    let recipes = Recipe::Entity::find()
+        .filter(Recipe::Column::Roaster.eq(roaster))
+        .all(&conn)
+        .await
+        .map_err(internal_error)?;
+    Ok(Json(recipes))
+}
+
 /// Asynchronously creates a new recipe in the database.
 ///
 /// # Arguments
