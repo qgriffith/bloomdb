@@ -158,12 +158,45 @@ pub async fn get_recipe_title(
 /// The results are returned as a JSON array of `Recipe::Model`. If an error occurs during the database query,
 /// it maps the error to an internal server error and returns it.
 ///
-pub async fn get_recipe_roaster(
+pub async fn get_recipes_roaster(
     State(conn): State<DatabaseConnection>,
     Path(roaster): Path<String>,
 ) -> Result<Json<Vec<Recipe::Model>>, (StatusCode, String)> {
     let recipes = Recipe::Entity::find()
         .filter(Recipe::Column::Roaster.eq(roaster))
+        .all(&conn)
+        .await
+        .map_err(internal_error)?;
+    Ok(Json(recipes))
+}
+
+/// Fetches all recipes associated with a specified machine.
+///
+/// This asynchronous function takes a machine name as input and
+/// queries the database to retrieve all recipes linked to that machine.
+///
+/// # Arguments
+///
+/// * `State(conn)` - The database connection state.
+/// * `Path(machine)` - The machine name provided as a path parameter.
+///
+/// # Returns
+///
+/// This function returns a `Result`:
+/// * `Ok(Json<Vec<Recipe::Model>>)` - A JSON response containing a vector of recipes.
+/// * `Err((StatusCode, String))` - An error tuple containing the status code and error message.
+///
+/// # Errors
+///
+/// Returns an error if the database query fails.
+/// The error is wrapped in an internal error function to provide a consistent error response.
+///
+pub async fn get_recipes_machine(
+    State(conn): State<DatabaseConnection>,
+    Path(machine): Path<String>,
+) -> Result<Json<Vec<Recipe::Model>>, (StatusCode, String)> {
+    let recipes = Recipe::Entity::find()
+        .filter(Recipe::Column::Machine.eq(machine))
         .all(&conn)
         .await
         .map_err(internal_error)?;

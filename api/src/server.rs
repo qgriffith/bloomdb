@@ -53,8 +53,12 @@ async fn start() -> anyhow::Result<()> {
         .route("/api/recipe/create", post(recipes::create_recipe))
         .route("/api/recipe/title/:title", get(recipes::get_recipe_title))
         .route(
-            "/api/recipe/roaster/:roaster",
-            get(recipes::get_recipe_roaster),
+            "/api/recipes/roaster/:roaster",
+            get(recipes::get_recipes_roaster),
+        )
+        .route(
+            "/api/recipes/machine/:machine",
+            get(recipes::get_recipes_machine),
         )
         // Add middleware to all routes
         .layer(
