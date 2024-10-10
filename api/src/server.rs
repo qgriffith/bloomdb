@@ -1,8 +1,8 @@
 use axum::{
     http::StatusCode,
-    response::{Html, IntoResponse},
+    response::IntoResponse,
     routing::{get, post},
-    Router,
+    Json, Router,
 };
 
 use crate::brewers;
@@ -10,13 +10,16 @@ use crate::recipes;
 use crate::recipes::get_recipe_id;
 use crate::roasts;
 use crate::users;
+use axum::body::Body;
 use axum::error_handling::HandleErrorLayer;
+use axum::http::Response;
 use migration::{Migrator, MigratorTrait};
 use sea_orm::Database;
+use serde_json::json;
 use std::env;
 use std::time::Duration;
 use tower::{BoxError, ServiceBuilder};
-use tower_http::cors::{Any, CorsLayer};
+use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
 
 #[tokio::main]
@@ -78,8 +81,11 @@ async fn start() -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn handler() -> Html<&'static str> {
-    Html("<h1>Hello, World!</h1>")
+async fn handler() -> Response<Body> {
+    let response = json!({
+        "status": "ok"
+    });
+    Json(response).into_response()
 }
 
 async fn handler_404() -> impl IntoResponse {

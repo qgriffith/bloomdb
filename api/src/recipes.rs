@@ -7,7 +7,7 @@ use axum::{
 use entity::recipe as Recipe;
 
 use super::internal_error;
-use sea_orm::{entity::*, DatabaseConnection, QueryFilter};
+use sea_orm::{entity::*, query::*, DatabaseConnection};
 use slug::slugify;
 
 /// Asynchronously retrieves a list of recipes from the database.
@@ -131,7 +131,7 @@ pub async fn get_recipe_title(
     Path(title): Path<String>,
 ) -> Result<Json<Vec<Recipe::Model>>, (StatusCode, String)> {
     let recipes = Recipe::Entity::find()
-        .filter(Recipe::Column::Title.eq(title))
+        .filter(Recipe::Column::Title.like(title))
         .all(&conn)
         .await
         .map_err(internal_error)?;

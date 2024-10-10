@@ -1,6 +1,6 @@
 # Future Features and Fixes
 
-- [ ] Fix / route to return a json payload instead of *Hello World*
+- [X] Fix / route to return a json payload instead of *Hello World*
 - [X] Add auth for at least the create recipe
 - [ ] Create admin level apis to add/delete/modify the supporting tables like equipment/brewers etc
 - [ ] Create API docs
