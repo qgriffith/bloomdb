@@ -131,7 +131,7 @@ pub async fn get_recipe_title(
     Path(title): Path<String>,
 ) -> Result<Json<Vec<Recipe::Model>>, (StatusCode, String)> {
     let recipes = Recipe::Entity::find()
-        .filter(Recipe::Column::Title.like(title))
+        .filter(Recipe::Column::Title.contains(title))
         .all(&conn)
         .await
         .map_err(internal_error)?;
